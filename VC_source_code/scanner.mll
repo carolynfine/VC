@@ -1,11 +1,10 @@
 { open Parser }
 
-(* add single line comment *)
-
 
 rule token = parse
   [' ' '\t' '\r' '\n'] { token lexbuf } (* Whitespace *)
 | "/*"		{ comment lexbuf }           (* Comments *)
+| "//"		{ comment2 lexbuf }
 | '('		{ LPAREN }
 | ')'      	{ RPAREN }
 | ';'      	{ SEMI }
@@ -25,5 +24,9 @@ rule token = parse
 | _ as char { raise (Failure("illegal character " ^ Char.escaped char)) }
 
 and comment = parse
-  "*/" { token lexbuf }
-| _    { comment lexbuf }
+  "*/"  { token lexbuf }
+| _     { comment lexbuf }
+
+and comment2 = parse
+  '\n'	{ token lexbuf }
+| _		{ comment lexbuf }
