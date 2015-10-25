@@ -1,8 +1,7 @@
-type op = Add | Sub | Mult | Div | Equal | Neq | Less | Leq | Greater | Geq
+type op = Add | Sub | Mult | Div | Exp | Un
 
 type expr =
-    Literal of int
-  | Id of string
+    Literal of float
   | Binop of expr * op * expr
   | Assign of string * expr
   | Call of string * expr list
@@ -11,10 +10,10 @@ type expr =
 type stmt =
     Block of stmt list
   | Expr of expr
-  | Return of expr
-  | If of expr * stmt * stmt
-  | For of expr * expr * expr * stmt
-  | While of expr * stmt
+  | MC of expr
+  | Eval of expr
+  | Fill_in of expr
+  | TF of expr
 
 type func_decl = {
     fname : string;
@@ -31,9 +30,7 @@ let rec string_of_expr = function
   | Binop(e1, o, e2) ->
       string_of_expr e1 ^ " " ^
       (match o with
-	Add -> "+" | Sub -> "-" | Mult -> "*" | Div -> "/"
-      | Equal -> "==" | Neq -> "!="
-      | Less -> "<" | Leq -> "<=" | Greater -> ">" | Geq -> ">=") ^ " " ^
+	Add -> "+" | Sub -> "-" | Mult -> "*" | Div -> "/" | Exp -> "^") ^ " " ^
       string_of_expr e2
   | Assign(v, e) -> v ^ " = " ^ string_of_expr e
   | Call(f, el) ->
