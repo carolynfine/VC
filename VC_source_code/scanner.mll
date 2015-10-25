@@ -1,31 +1,24 @@
 { open Parser }
 
+(* add single line comment *)
+
+
 rule token = parse
   [' ' '\t' '\r' '\n'] { token lexbuf } (* Whitespace *)
-| "/*"     { comment lexbuf }           (* Comments *)
-| '('      { LPAREN }
-| ')'      { RPAREN }
-| '{'      { LBRACE }
-| '}'      { RBRACE }
-| ';'      { SEMI }
-| ','      { COMMA }
-| '+'      { PLUS }
-| '-'      { MINUS }
-| '*'      { TIMES }
-| '/'      { DIVIDE }
-| '='      { ASSIGN }
-| "=="     { EQ }
-| "!="     { NEQ }
-| '<'      { LT }
-| "<="     { LEQ }
-| ">"      { GT }
-| ">="     { GEQ }
-| "if"     { IF }
-| "else"   { ELSE }
-| "for"    { FOR }
-| "while"  { WHILE }
-| "return" { RETURN }
-| "int"    { INT }
+| "/*"		{ comment lexbuf }           (* Comments *)
+| '('		{ LPAREN }
+| ')'      	{ RPAREN }
+| ';'      	{ SEMI }
+| ','      	{ COMMA }
+| '+'      	{ PLUS }
+| '-'      	{ MINUS }
+| '*'      	{ TIMES }
+| '/'      	{ DIVIDE }
+| '^'      	{ EXPONENT }
+| "MC"     	{ MC }
+| "eval"   	{ EVAL }
+| "fill_in" { FILL_IN }
+| "TF"		{ TF }
 | ['0'-'9']+ as lxm { LITERAL(int_of_string lxm) }
 | ['a'-'z' 'A'-'Z']['a'-'z' 'A'-'Z' '0'-'9' '_']* as lxm { ID(lxm) }
 | eof { EOF }
